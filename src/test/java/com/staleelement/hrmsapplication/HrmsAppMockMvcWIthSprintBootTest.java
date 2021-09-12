@@ -26,7 +26,9 @@ public class HrmsAppMockMvcWIthSprintBootTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    // Mocking- we always mock a service because the actual service is not ready so far. In our case we need to mock the employee service
+    // So we have to create a bean of mocked employee service - see below
+    @MockBean 
     private EmployeeService employeeService;
 
     @Test
@@ -39,10 +41,11 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 									.phone(987654)
 									.address(Address.builder().city("Hisar").state("Haryana").country("India").build())
 									.build();
-        // Act
+        
+        // Act - We are moocking the employee service
         when(employeeService.getEmployeeById(101)).thenReturn(employee);
 
-        // Assert
+        // Assert - We are not mocking the employee service controller
         this.mockMvc.perform(get("/hr/employee/101")).andExpect(status().isOk());
         
         this.mockMvc.perform(MockMvcRequestBuilders.get("/hr/employee/101"))

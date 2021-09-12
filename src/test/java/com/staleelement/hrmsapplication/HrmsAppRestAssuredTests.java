@@ -1,19 +1,18 @@
 package com.staleelement.hrmsapplication;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
 
 import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
 
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Arrays;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HrmsAppRestAssuredTests {
