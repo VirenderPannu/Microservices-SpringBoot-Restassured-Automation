@@ -1,7 +1,9 @@
 package com.staleelement.hrmsapplication.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
 import com.staleelement.hrmsapplication.service.EmployeeService;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+// Controllers (@RestControllers > alias for @Contoller > alias for @Component) are mapped end points 
+// and they are talking to beneath services (@Service) where we have written our business logic
 @RestController
 public class EmployeeController {
 
