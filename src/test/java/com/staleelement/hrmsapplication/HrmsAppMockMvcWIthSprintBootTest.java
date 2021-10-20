@@ -34,7 +34,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 
     @Test
     public void testGetEmployeeByID() throws Exception{
-        // ARRANGE - to proovide Expected result
+        // ARRANGE - to provide Expected result
         Employee employee = Employee.builder()
 									.id(101)
 									.name("Virender")
@@ -44,9 +44,10 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 									.build();
         
         // ACT - We are mocking the employee service
-        when(employeeService.getEmployeeById(101)).thenReturn(employee);
+        // Actual service is not there so we will get NULL (getEmployeeById method) but the entity would be returned by Stub (thenReturn method)
+        when(employeeService.getEmployeeById(101)).thenReturn(employee); // Mockito's when()
 
-        // ASSERT - We are not mocking the employee service controller
+        // ASSERT - We are NOT mocking the employee service controller
         this.mockMvc.perform(get("/hr/employee/101")).andExpect(status().isOk());
         
         this.mockMvc.perform(MockMvcRequestBuilders.get("/hr/employee/101"))
@@ -56,7 +57,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 
     @Test
     public void testGetEmployeeList() throws Exception{
-        // Arrange
+        // ARRANGE - to provide Expected result
         List<Employee> employeeList = new ArrayList<>(List.of(
                                         Employee.builder()
                                             .id(101)
@@ -80,10 +81,11 @@ public class HrmsAppMockMvcWIthSprintBootTest {
                                             .address(Address.builder().city("Bhiwani").state("Haryyana").country("India").build())
                                             .build()
                                         ));
-        // Act
+        //ACT - We are mocking the employee service
+        // Actual service is not there so we will get NULL (getAllEmployees method) but the entity would be returned by Stub (thenReturn method)
         when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
-        // Assert
+        // ASSERT - We are NOT mocking the employee service controller
         this.mockMvc.perform(MockMvcRequestBuilders.get("/hr/employeeList"))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Virender"))
                     .andExpect(MockMvcResultMatchers.jsonPath("$[0].address.city").value("Hisar"))

@@ -43,10 +43,7 @@ public class EmployeeService {
         }
 
         public Employee getEmployeeById(int id){
-            return employeeList.stream()
-                .filter(employee -> employee.getId() == id)
-                .findFirst()
-                .get();
+            return null;
         }
 
         public List<Employee> addEmployee(Employee newEmployee){
