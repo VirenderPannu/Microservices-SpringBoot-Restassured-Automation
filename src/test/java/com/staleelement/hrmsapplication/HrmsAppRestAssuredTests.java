@@ -14,6 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import io.restassured.response.Response;
+
+// We have to add webEnvironment to start actual application context (IoC Container) and Apache tomcat server on defined/random port
+// We have also no need to run explicitely HrmsApplication class, as the below WebEnvironment run the App with embedded Tomcat server
+// And we can test the integration APIs with our automated test scripts
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HrmsAppRestAssuredTests {
     
@@ -21,21 +26,25 @@ public class HrmsAppRestAssuredTests {
     private String baseUrl;
 
     @LocalServerPort
-    private int  port;
+    private int port;
 
     @Test
 	void testGetEmployeeByID() {
         given()
-                .baseUri(baseUrl)
-                .port(port)
-                .basePath("/hr/employee/101")
-                .get().then().assertThat().body("name", Matchers.equalTo("Virender"));
+            .baseUri(baseUrl)
+            .port(port)
+            .basePath("/hr/employee/101")
+            .get()
+            .then()
+            .assertThat()
+            .body("name", Matchers.equalTo("Virender"));
     }
 
     @Test
 	void testGetEmployee(){
-        // Arrange
-		Employee employee = Employee.builder()
+        // ARRANGE - to proovide Expected result
+        // String employee = "Employee(id=101, name=Virender, address=Address(city=Hisar, state=Haryana, country=India), email=virender.pannu@gmail.com, phone=987654)";
+		Employee expectedEmployee = Employee.builder()
 									.id(101)
 									.name("Virender")
 									.email("virender.pannu@gmail.com")
@@ -43,17 +52,17 @@ public class HrmsAppRestAssuredTests {
 									.address(Address.builder().city("Hisar").state("Haryana").country("India").build())
 									.build();
         
-        // Act
-        var response = given().baseUri(baseUrl).port(port).basePath("/hr/employee/101").get();
-        var responseEntity = response.body().as(Employee.class);
+        // ACT - to provide Actual result
+        Response response = given().baseUri(baseUrl).port(port).basePath("/hr/employee/101").get();
+        Employee actualEmployee = response.body().as(Employee.class);
 
-        // Assert
-        assertThat(responseEntity).isEqualTo(employee);
+        // ASSERT - to map Actual with Expected result
+        assertThat(actualEmployee).isEqualTo(expectedEmployee);
 	}
 
     @Test
 	void testPostEmployee(){
-        // Arrange
+        // ARRANGE - providing request body for Post request
 		Employee newEmployee = Employee.builder()
 									.id(104)
 									.name("newQA")
@@ -61,8 +70,8 @@ public class HrmsAppRestAssuredTests {
 									.phone(987656)
 									.address(Address.builder().city("Hissar").state("Haryanaa").country("Indiaa").build())
 									.build();
-        // Act
-        var response = given()
+        // ACT - posting above request body with content type
+        Response response = given()
                             .baseUri(baseUrl)
                             .port(port)
                             .basePath("/hr/addEmployee")
@@ -70,10 +79,9 @@ public class HrmsAppRestAssuredTests {
                             .body(newEmployee)
                             .post();
         
-        var responseEntity = response.body().as(Employee[].class);
-        var responseEmployee = Arrays.stream(responseEntity).filter(x -> x.getId() == 104).findFirst().get();
-
-        // Assert
+        Employee[] responseEmployees = response.body().as(Employee[].class);
+        Employee responseEmployee = Arrays.stream(responseEmployees).filter(employee -> employee.getId() == 104).findFirst().get();
+        // ASSERT - verifying newly added employee
         assertThat(responseEmployee).isEqualTo(newEmployee);
 	}
 
@@ -88,7 +96,7 @@ public class HrmsAppRestAssuredTests {
 									.address(Address.builder().city("Hissara").state("Haryanaa").country("Indiaa").build())
 									.build();
         // Act
-        var response = given()
+        Response response = given()
                             .baseUri(baseUrl)
                             .port(port)
                             .basePath("/hr/updateEmployee/103")
@@ -96,9 +104,8 @@ public class HrmsAppRestAssuredTests {
                             .body(existingEmployee)
                             .put();
         
-        var responseEntity = response.body().as(Employee.class);
-
+        Employee changedEmployee = response.body().as(Employee.class);
         // Assert
-        assertThat(responseEntity).isEqualTo(existingEmployee);
+        assertThat(changedEmployee).isEqualTo(existingEmployee);
 	}
 }

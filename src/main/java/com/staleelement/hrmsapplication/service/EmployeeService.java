@@ -3,11 +3,9 @@ package com.staleelement.hrmsapplication.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.staleelement.hrmsapplication.controller.EmployeeController;
 import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // Services (@Service) where we have written our business logic

@@ -1,9 +1,7 @@
 package com.staleelement.hrmsapplication.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
 import com.staleelement.hrmsapplication.service.EmployeeService;
 

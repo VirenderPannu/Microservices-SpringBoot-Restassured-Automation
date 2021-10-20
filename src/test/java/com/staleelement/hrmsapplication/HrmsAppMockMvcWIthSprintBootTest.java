@@ -20,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(EmployeeController.class)
+// Will test only Controllers, assuming that Microservice is not implamented so far, will use below Mock Service
+@WebMvcTest(EmployeeController.class) 
 public class HrmsAppMockMvcWIthSprintBootTest {
     
     @Autowired
@@ -33,7 +34,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 
     @Test
     public void testGetEmployeeByID() throws Exception{
-        // Arrange
+        // ARRANGE - to proovide Expected result
         Employee employee = Employee.builder()
 									.id(101)
 									.name("Virender")
@@ -42,10 +43,10 @@ public class HrmsAppMockMvcWIthSprintBootTest {
 									.address(Address.builder().city("Hisar").state("Haryana").country("India").build())
 									.build();
         
-        // Act - We are moocking the employee service
+        // ACT - We are mocking the employee service
         when(employeeService.getEmployeeById(101)).thenReturn(employee);
 
-        // Assert - We are not mocking the employee service controller
+        // ASSERT - We are not mocking the employee service controller
         this.mockMvc.perform(get("/hr/employee/101")).andExpect(status().isOk());
         
         this.mockMvc.perform(MockMvcRequestBuilders.get("/hr/employee/101"))
