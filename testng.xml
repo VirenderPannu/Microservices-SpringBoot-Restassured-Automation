@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite" verbose="10" configfailurepolicy="skip" tests="parallel">
+<suite name="Suite" verbose="10" configfailurepolicy="skip" parallel="tests">
 
     <test name="E2E Test of Integration APIs">
         <classes>
