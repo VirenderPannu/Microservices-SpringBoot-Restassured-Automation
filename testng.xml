@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" verbose="10" configfailurepolicy="skip" >
+
+    <test name="E2E Test of Integration APIs">
+        <classes>
+            <class name="com.staleelement.hrmsapplication.HrmsAppMockMvcWIthSprintBootTest"></class>
+            <class name="com.staleelement.hrmsapplication.HrmsAppRestAssuredTests"></class>
+            <class name="com.staleelement.hrmsapplication.HrmsAppSpringTestRestTemplateTests"></class>
+        </classes>
+    </test>
+
+</suite>
+        

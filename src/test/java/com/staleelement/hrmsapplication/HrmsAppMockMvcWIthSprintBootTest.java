@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import com.staleelement.hrmsapplication.controller.EmployeeControllerForMockedEmployeeService;
+import com.staleelement.hrmsapplication.controller.EmployeeController;
 import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
-import com.staleelement.hrmsapplication.service.EmployeeMockService;
+import com.staleelement.hrmsapplication.service.EmployeeService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 // Will test only Controllers, assuming that Microservice is not implamented so far, will use below Mock Service
-@WebMvcTest(EmployeeControllerForMockedEmployeeService.class) 
+@WebMvcTest(EmployeeController.class) 
 public class HrmsAppMockMvcWIthSprintBootTest {
     
     @Autowired
@@ -30,7 +30,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
     // Mocking- we always mock a service because the actual service is not ready so far. In our case we need to mock the employee service
     // So we have to create a bean of mocked employee service - see below
     @MockBean 
-    private EmployeeMockService employeeMockService;
+    private EmployeeService employeeMockService;
 
     @Test
     public void testGetEmployeeByID() throws Exception{
