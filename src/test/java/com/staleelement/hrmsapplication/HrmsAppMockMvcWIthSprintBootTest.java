@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import com.staleelement.hrmsapplication.controller.EmployeeController;
+import com.staleelement.hrmsapplication.controller.EmployeeControllerForMockedEmployeeService;
 import com.staleelement.hrmsapplication.model.Address;
 import com.staleelement.hrmsapplication.model.Employee;
-import com.staleelement.hrmsapplication.service.EmployeeService;
+import com.staleelement.hrmsapplication.service.EmployeeMockService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 // Will test only Controllers, assuming that Microservice is not implamented so far, will use below Mock Service
-@WebMvcTest(EmployeeController.class) 
+@WebMvcTest(EmployeeControllerForMockedEmployeeService.class) 
 public class HrmsAppMockMvcWIthSprintBootTest {
     
     @Autowired
@@ -30,7 +30,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
     // Mocking- we always mock a service because the actual service is not ready so far. In our case we need to mock the employee service
     // So we have to create a bean of mocked employee service - see below
     @MockBean 
-    private EmployeeService employeeService;
+    private EmployeeMockService employeeMockService;
 
     @Test
     public void testGetEmployeeByID() throws Exception{
@@ -45,7 +45,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
         
         // ACT - We are mocking the employee service
         // Actual service is not there so we will get NULL (getEmployeeById method) but the entity would be returned by Stub (thenReturn method)
-        when(employeeService.getEmployeeById(101)).thenReturn(employee); // Mockito's when()
+        when(employeeMockService.getEmployeeById(101)).thenReturn(employee); // Mockito's when()
 
         // ASSERT - We are NOT mocking the employee service controller
         this.mockMvc.perform(get("/hr/employee/101")).andExpect(status().isOk());
@@ -83,7 +83,7 @@ public class HrmsAppMockMvcWIthSprintBootTest {
                                         ));
         //ACT - We are mocking the employee service
         // Actual service is not there so we will get NULL (getAllEmployees method) but the entity would be returned by Stub (thenReturn method)
-        when(employeeService.getAllEmployees()).thenReturn(employeeList);
+        when(employeeMockService.getAllEmployees()).thenReturn(employeeList);
 
         // ASSERT - We are NOT mocking the employee service controller
         this.mockMvc.perform(MockMvcRequestBuilders.get("/hr/employeeList"))
