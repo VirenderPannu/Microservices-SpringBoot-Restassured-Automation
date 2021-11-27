@@ -8,8 +8,7 @@ import lombok.Data;
 // Just decorate @Builder and @Data annotation on class or a method and it will automatically create getter/setter bolier plate code.
 @Builder // Build Object methods
 @Data // getter-setter methods
-public class Employee {
-    // POJO - Plain Old Java Object Class
+public class Employee { // POJO - Plain Old Java Object Class
     private int id;
     private String name;
     private Address address;
